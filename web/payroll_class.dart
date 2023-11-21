@@ -18,6 +18,10 @@ class PayrollManagementSystem {
           (workingHoursMap[employeeId] ?? 0.0) + (hours);
     }
 
+    var hoursRecordedElement = querySelector('#hoursRecorded');
+      hoursRecordedElement?.text =
+          "Working hour(s) for Employee $employeeId has been recorded";
+
     // Automatically reset after 22 accumulations
       accumulationCount++;
       if (accumulationCount >= 22) {
