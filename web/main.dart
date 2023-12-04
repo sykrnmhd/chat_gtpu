@@ -27,8 +27,10 @@ void main()
     });
   }
 
-  if (calculateButton != null) {
-    calculateButton.onClick.listen((_){
+  if (calculateButton != null) 
+  {
+    calculateButton.onClick.listen((_)
+    {
       var calculateEmployeeIdInput = querySelector('#calculateEmployeeId') as InputElement?; // get the data for calculate employee id input
       int? employeeId = calculateEmployeeIdInput?.valueAsNumber?.toInt(); // the data for employee id input as integer
 
@@ -36,8 +38,10 @@ void main()
     });
   }
 
-  if (resetButton != null) {
-    resetButton.onClick.listen((_) {
+  if (resetButton != null) 
+  {
+    resetButton.onClick.listen((_) 
+    {
       var resetEmployeeIdInput = querySelector('#resetEmployeeId') as InputElement?; // get the data for reset employee id input
       int? resetEmployeeId = resetEmployeeIdInput?.valueAsNumber?.toInt(); // the data for employee id input as integer
 
