@@ -2,8 +2,6 @@
 import 'dart:html';
 import 'payroll_class.dart';
 
-
-
 void main() {
   var payrollSystem = PayrollManagementSystem();
   payrollSystem.loadFromLocalStorage();
@@ -14,7 +12,6 @@ void main() {
 
   if (recordButton != null) {
     recordButton.onClick.listen((_) {
-  
       var employeeIdInput = querySelector('#employeeId') as InputElement?;
       var timeInInput = querySelector('#timeIn') as InputElement?;
       var timeOutInput = querySelector('#timeOut') as InputElement?;
@@ -24,8 +21,6 @@ void main() {
       String? checkOutTime = timeOutInput?.value;
 
       payrollSystem.recordWorkingHours(employeeId, checkInTime, checkOutTime);
-
-
     });
   }
 
@@ -41,7 +36,11 @@ void main() {
 
   if (resetButton != null) {
     resetButton.onClick.listen((_) {
-      payrollSystem.resetWorkingHours();
+      var resetEmployeeIdInput =
+          querySelector('#resetEmployeeId') as InputElement?;
+      int? resetEmployeeId = resetEmployeeIdInput?.valueAsNumber?.toInt();
+
+      payrollSystem.resetWorkingHours(resetEmployeeId);
     });
   }
 }

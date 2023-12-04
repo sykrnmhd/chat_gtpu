@@ -3,30 +3,27 @@ import 'dart:convert';
 
 class PayrollManagementSystem {
   Map<int, double> workingHoursMap = {};
-  int accumulationCount = 0;
-  
+  Map<int, int> accumulationCountMap = {};
   double hourlyRate = 6.0; // RM per hour
   double epfContributionRate = 0.11; // 11% EPF contribution rate
 
-  void recordWorkingHours(int? employeeId, String? checkInTime, String? checkOutTime) {
+  void recordWorkingHours(
+      int? employeeId, String? checkInTime, String? checkOutTime) {
     if (employeeId != null && checkInTime != null && checkOutTime != null) {
       DateTime checkIn = DateTime.parse('1970-01-01 $checkInTime:00Z');
       DateTime checkOut = DateTime.parse('1970-01-01 $checkOutTime:00Z');
       double hours = checkOut.difference(checkIn).inMinutes / 60.0;
 
-      workingHoursMap[employeeId] = 
+      workingHoursMap[employeeId] =
           (workingHoursMap[employeeId] ?? 0.0) + (hours);
-    }
 
-    var hoursRecordedElement = querySelector('#hoursRecorded');
-      hoursRecordedElement?.text =
-          "Working hour(s) for Employee $employeeId has been recorded";
+      accumulationCountMap[employeeId] =
+          (accumulationCountMap[employeeId] ?? 0) + 1;
 
-    // Automatically reset after 22 accumulations
-      accumulationCount++;
-      if (accumulationCount >= 22) {
-        resetWorkingHours();
+      if (accumulationCountMap[employeeId]! > 22) {
+        resetWorkingHours(employeeId);
       }
+    }
   }
 
   void calculateSalary(int? employeeId) {
@@ -46,19 +43,25 @@ class PayrollManagementSystem {
           "Net Salary for Employee $employeeId: RM ${netSalary.toStringAsFixed(2)}";
 
       var accCount = querySelector('#accCount');
-      accCount?.text = "Days Worked for the month: $accumulationCount" + "/22";
+      accCount?.text =
+          "Days Worked for Employee $employeeId: ${accumulationCountMap[employeeId] ?? 0}";
     }
   }
 
-  void resetWorkingHours() {
-    workingHoursMap.clear();
-    accumulationCount = 0;
-    print("Working hours reset.");
+  void resetWorkingHours(int? employeeId) {
+    if (employeeId != null) {
+      workingHoursMap.remove(employeeId);
+      accumulationCountMap.remove(employeeId);
+    } else {
+      workingHoursMap.clear();
+      accumulationCountMap.clear();
+    }
   }
 
   void saveToLocalStorage() {
     window.localStorage['workingHoursMap'] = json.encode(workingHoursMap);
-    window.localStorage['accumulationCount'] = json.encode(accumulationCount);
+    window.localStorage['accumulationCountMap'] =
+        json.encode(accumulationCountMap);
   }
 
   void loadFromLocalStorage() {
@@ -67,10 +70,9 @@ class PayrollManagementSystem {
       workingHoursMap = Map<int, double>.from(json.decode(storedData));
     }
 
-    var countData = window.localStorage['accumulationCount'];
+    var countData = window.localStorage['accumulationCountMap'];
     if (countData != null) {
-      accumulationCount = json.decode(countData);
+      accumulationCountMap = Map<int, int>.from(json.decode(countData));
     }
   }
-
 }
