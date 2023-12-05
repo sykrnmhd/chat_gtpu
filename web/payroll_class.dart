@@ -14,6 +14,10 @@ class PayrollManagementSystem {
       DateTime checkOut = DateTime.parse('1970-01-01 $checkOutTime:00Z');
       double hours = checkOut.difference(checkIn).inMinutes / 60.0;
 
+      var hoursRecordedElement = querySelector('#hoursRecorded');
+      hoursRecordedElement?.text =
+          "Working hour(s) for Employee $employeeId has been recorded";
+
       workingHoursMap[employeeId] =
           (workingHoursMap[employeeId] ?? 0.0) + (hours);
 
@@ -25,6 +29,8 @@ class PayrollManagementSystem {
       }
     }
   }
+
+  
 
   void calculateSalary(int? employeeId) {
     if (employeeId != null) {
