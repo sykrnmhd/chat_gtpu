@@ -7,27 +7,24 @@ class PayrollManagementSystem {
   double hourlyRate = 6.0; // RM per hour
   double epfContributionRate = 0.11; // 11% EPF contribution rate
 
-  void recordWorkingHours(
-      int? employeeId, String? checkInTime, String? checkOutTime) {
-    if (employeeId != null && checkInTime != null && checkOutTime != null) {
-      DateTime checkIn = DateTime.parse('1970-01-01 $checkInTime:00Z');
-      DateTime checkOut = DateTime.parse('1970-01-01 $checkOutTime:00Z');
-      double hours = checkOut.difference(checkIn).inMinutes / 60.0;
+  void recordWorkingHours(int? employeeId, String? checkInTime, String? checkOutTime) {
+  if (employeeId != null && checkInTime != null && checkOutTime != null) {
+    DateTime checkIn = DateTime.parse('1970-01-01 $checkInTime:00Z');
+    DateTime checkOut = DateTime.parse('1970-01-01 $checkOutTime:00Z');
+    double hours = checkOut.difference(checkIn).inMinutes / 60.0;
 
-      var hoursRecordedElement = querySelector('#hoursRecorded');
-      hoursRecordedElement?.text =
-          "Working hour(s) for Employee $employeeId has been recorded";
+    window.alert("Working hour(s) for Employee $employeeId has been recorded");
 
-      workingHoursMap[employeeId] =
-          (workingHoursMap[employeeId] ?? 0.0) + (hours);
+    workingHoursMap[employeeId] =
+        (workingHoursMap[employeeId] ?? 0.0) + (hours);
 
-      accumulationCountMap[employeeId] =
-          (accumulationCountMap[employeeId] ?? 0) + 1;
+    accumulationCountMap[employeeId] =
+        (accumulationCountMap[employeeId] ?? 0) + 1;
 
-      if (accumulationCountMap[employeeId]! > 22) {
-        resetWorkingHours(employeeId);
-      }
+    if (accumulationCountMap[employeeId]! > 22) {
+      resetWorkingHours(employeeId);
     }
+  }
   }
 
   void calculateSalary(int? employeeId) {
