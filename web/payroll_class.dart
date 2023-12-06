@@ -49,11 +49,11 @@ class PayrollManagementSystem {
 
     // Create the text elements
     var resultGrossElement = ParagraphElement()
-      ..text = "Gross Salary for Employee $employeeId: RM ${grossSalary.toStringAsFixed(2)}";
+      ..text = "Gross Salary for Employee $employeeId: RM ${grossSalary.abs().toStringAsFixed(2)}";
     dialogContent.append(resultGrossElement);
 
     var resultNetElement = ParagraphElement()
-      ..text = "Net Salary for Employee $employeeId: RM ${netSalary.toStringAsFixed(2)}";
+      ..text = "Net Salary for Employee $employeeId: RM ${netSalary.abs().toStringAsFixed(2)}";
     dialogContent.append(resultNetElement);
 
     var accCount = ParagraphElement()
